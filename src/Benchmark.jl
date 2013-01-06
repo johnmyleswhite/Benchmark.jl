@@ -2,7 +2,7 @@ load("DataFrames")
 module Benchmark
   using DataFrames
 
-  export benchmark
+  export benchmark, @benchmark
 
-  load("Benchmark/src/benchmarks.jl")
+  include(joinpath(julia_pkgdir(), "Benchmark", "src", "benchmarks.jl"))
 end

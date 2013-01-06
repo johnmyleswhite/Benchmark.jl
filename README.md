@@ -5,8 +5,9 @@ A package for computing simple benchmarks
 
 # Usage Example
 
-	load("Benchmark")
+	require("Benchmark")
 	using Benchmark
+	@benchmark svd(zeros(1000, 1000)) "Linear Algebra" "Calculate the SVD of a 1000x100 Matrix" 10
 
 	function f()
 	  svd(zeros(1000, 1000))
@@ -14,6 +15,7 @@ A package for computing simple benchmarks
 
 	benchmark(f, "Calculate the SVD of a 1000x100 Matrix", 10)
 	benchmark(f, "Linear Algebra", "Calculate the SVD of a 1000x100 Matrix", 10)
+	@benchmark svd(zeros(1000, 1000)) "Linear Algebra" "Calculate the SVD of a 1000x100 Matrix" 10
 
 # Output Information
 
