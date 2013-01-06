@@ -1,4 +1,4 @@
-load("DataFrames")
+require("DataFrames")
 module Benchmark
   using DataFrames
 

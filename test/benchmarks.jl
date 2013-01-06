@@ -1,4 +1,4 @@
-load("Benchmark")
+require("Benchmark")
 using Benchmark
 
 benchmark(() -> 10^2, "Squaring", 100)
