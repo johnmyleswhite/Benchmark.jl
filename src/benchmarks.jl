@@ -67,6 +67,13 @@ function benchmark(f::Function, f2::Function, category::String, name::String, na
     df["CodeHash"] = NA
   end
   df["OS"] = string(OS_NAME)
+
+  
+  println("$name wins to $name2 on the $(N1 > N2 ? mean( times1[1:N2] .< times2 )*100 : mean( times1 .< times2[1:N1] )*100)% of runnings")
+  println("$name2 wins to $name on the $(N1 > N2 ? mean( times1[1:N2] .> times2 )*100 : mean( times1 .> times2[1:N1] )*100)% of runnings")
+  println("Ties: $(N1 > N2 ? mean( times1[1:N2] .== times2 )*100 : mean( times1 .== times2[1:N1] )*100)%")
+  
+
   return df
 end
 
@@ -103,7 +110,7 @@ macro benchmark(ex, category, name, N)
 end
 
 # For comparing two expressions
-macro benchmark(ex, ex2, category, name, name2, N)
+macro benchmark2(ex, ex2, category, name, name2, N)
   df = DataFrame()
   choosed = rand(2N) .<= .5
   N1= sum(choosed)
@@ -145,6 +152,11 @@ macro benchmark(ex, ex2, category, name, name2, N)
     df["CodeHash"] = NA
   end
   df["OS"] = string(OS_NAME)
+  
+  println("$name wins to $name2 on the $(N1 > N2 ? mean( times1[1:N2] .< times2 )*100 : mean( times1 .< times2[1:N1] )*100)% of runnings")
+  println("$name2 wins to $name on the $(N1 > N2 ? mean( times1[1:N2] .> times2 )*100 : mean( times1 .> times2[1:N1] )*100)% of runnings")
+  println("Ties: $(N1 > N2 ? mean( times1[1:N2] .== times2 )*100 : mean( times1 .== times2[1:N1] )*100)%")
+
   return df
 end
 
