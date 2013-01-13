@@ -1,8 +1,8 @@
-require("DataFrames")
 module Benchmark
-  using DataFrames
+    using DataFrames
 
-  export benchmark, @benchmark, @benchmark2
+    export benchmark, benchmarks, compare
 
-  include(joinpath(julia_pkgdir(), "Benchmark", "src", "benchmarks.jl"))
+    include(joinpath(julia_pkgdir(), "Benchmark", "src", "benchmarks.jl"))
+    include(joinpath(julia_pkgdir(), "Benchmark", "src", "compare.jl"))
 end

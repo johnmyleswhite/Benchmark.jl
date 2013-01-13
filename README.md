@@ -1,38 +1,46 @@
-Benchmark
-=========
+Benchmark.jl
+============
 
-A package for computing simple benchmarks
+A package for computing simple benchmarks and comparing functions
 
 # Usage Example
 
-	require("Benchmark")
 	using Benchmark
-	@benchmark svd(zeros(1000, 1000)) "Linear Algebra" "Calculate the SVD of a 1000x100 Matrix" 10
 
-	function f()
-	  svd(zeros(1000, 1000))
-	end
+	f1() = svd(zeros(100, 100))
+	f2() = svd(ones(100, 100))
+	f3() = svd(eye(100, 100))
 
-	benchmark(f, "Calculate the SVD of a 1000x100 Matrix", 10)
-	benchmark(f, "Linear Algebra", "Calculate the SVD of a 1000x100 Matrix", 10)
-	@benchmark svd(zeros(1000, 1000)) "Linear Algebra" "Calculate the SVD of a 1000x100 Matrix" 10
+	benchmark(f1, "Linear Algebra", "svd(zeros(100, 100))", 10)
+	benchmark(f1, "svd(zeros(100, 100))", 10)
+
+	benchmark(f2, "Linear Algebra", "svd(ones(100, 100))", 10)
+	benchmark(f2, "svd(ones(100, 100))", 10)
+
+	compare([f1, f2, f3], 100)
 
 # Output Information
 
-* Benchmark Category
-* Benchmark Name
-* Number of Iterations
-* Total Wall Clock Time
-* Average Wall Clock Time per Iteration
-* Max Wall Clock Time
-* Min Wall Clock Time
-* Timestamp
-* Git SHA1 for Julia
-* Git SHA1 for Code
-* OS Information
+* Benchmarks:
+    * Benchmark Category
+    * Benchmark Name
+    * Number of Iterations
+    * Total Wall Clock Time
+    * Average Wall Clock Time per Iteration
+    * Max Wall Clock Time
+    * Min Wall Clock Time
+    * Timestamp
+    * Git SHA1 for Julia
+    * Git SHA1 for Code
+    * OS Information
+    * CPU cores
+* Comparisons
+	* Function Name
+	* Elapsed Time
+	* Relative Performance
+	* Number of Iterations
 
 # Desired Information
-
+    
 * BLAS Information
 * CPU Statistics
-* CPU cores (in CPU_CORES)
