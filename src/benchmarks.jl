@@ -14,8 +14,8 @@ function benchmark(f::Function, category::String, name::String, n::Integer)
     times = timer(f, n)
 
     df = DataFrame()
-    df["BenchmarkCategory"] = category
-    df["BenchmarkName"] = name
+    df["Category"] = category
+    df["Benchmark"] = name
     df["Iterations"] = n
     df["TotalWall"] = sum(times)
     df["AverageWall"] = mean(times)
