@@ -3,6 +3,6 @@ module Benchmark
 
     export benchmark, benchmarks, compare
 
-    include(joinpath(julia_pkgdir(), "Benchmark", "src", "benchmarks.jl"))
-    include(joinpath(julia_pkgdir(), "Benchmark", "src", "compare.jl"))
+    include(Pkg.dir("Benchmark", "src", "benchmarks.jl"))
+    include(Pkg.dir("Benchmark", "src", "compare.jl"))
 end
