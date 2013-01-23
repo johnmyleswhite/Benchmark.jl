@@ -1,17 +1,17 @@
-function timer(f::Function, n::Integer)
+function timer(f::Function, n::Integer, args...)
     # Call once to force JIT compilation
-    f()
+    f(args...)
 
     times = Array(Float64, n)
     for itr in 1:n
-        times[itr] = @elapsed f()
+        times[itr] = @elapsed f(args...)
     end
 
     return times
 end
 
-function benchmark(f::Function, category::String, name::String, n::Integer)
-    times = timer(f, n)
+function benchmark(f::Function, category::String, name::String, n::Integer, args...)
+    times = timer(f, n, args...)
 
     df = DataFrame()
     df["Category"] = category
@@ -34,7 +34,7 @@ function benchmark(f::Function, category::String, name::String, n::Integer)
     return df
 end
 
-benchmark(f::Function, name::String, n::Integer) = benchmark(f, name, name, n)
+benchmark(f::Function, name::String, n::Integer, args...) = benchmark(f, name, name, n, args...)
 
 function benchmarks(marks::Vector)
     df = DataFrame()
