@@ -1,9 +1,9 @@
-function compare(fs::Vector{Function}, replications::Integer)
+function compare(fs::Vector{Function}, replications::Integer,args...)
 	n = length(fs)
 
 	# Force JIT compilation
 	for i in 1:n
-		fs[i]()
+		fs[i](args...)
 	end
 
 	n_total = replications * n
@@ -13,7 +13,7 @@ function compare(fs::Vector{Function}, replications::Integer)
 
 	times = DataArray(Float64, n_total)
 	for i in 1:n_total
-		times[i] = @elapsed fs[indices[i]]()
+		times[i] = @elapsed fs[indices[i]](args...)
 	end
 
 	df = DataFrame({times, indices}, ["Time", "Function"])
