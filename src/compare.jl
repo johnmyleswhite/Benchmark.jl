@@ -27,4 +27,4 @@ function compare(fs::Vector{Function}, replications::Integer)
 
 	return df
 end
-compare(replications::Integer, fs::Function...) = compare(fs, replications)
+compare(replications::Integer, fs::Function...) = compare([fs...], replications)
