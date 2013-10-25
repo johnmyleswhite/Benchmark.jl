@@ -19,8 +19,8 @@ function benchmark(f::Function, category::String, name::String, n::Integer)
     df["Iterations"] = n
     df["TotalWall"] = sum(times)
     df["AverageWall"] = mean(times)
-    df["MaxWall"] = max(times)
-    df["MinWall"] = min(times)
+    df["MaxWall"] = maximum(times)
+    df["MinWall"] = minimum(times)
     df["Timestamp"] = strftime("%Y-%m-%d %H:%M:%S", int(time()))
     df["JuliaHash"] = Base.VERSION_COMMIT
     if isdir(".git")

@@ -18,7 +18,7 @@ function compare(fs::Vector{Function}, replications::Integer)
 
 	df = DataFrame({times, indices}, ["Time", "Function"])
 	df = by(df, "Function", :(Elapsed = sum(Time)))
-	df["Relative"] = df["Elapsed"] / min(df["Elapsed"])
+	df["Relative"] = df["Elapsed"] / minimum(df["Elapsed"])
 	df["Function"] = DataArray(ASCIIString, nrow(df))
 	for i in 1:nrow(df)
 		df[i, "Function"] = string(fs[i])
