@@ -22,7 +22,7 @@ function benchmark(f::Function, category::String, name::String, n::Integer)
     df["MaxWall"] = maximum(times)
     df["MinWall"] = minimum(times)
     df["Timestamp"] = strftime("%Y-%m-%d %H:%M:%S", int(time()))
-    df["JuliaHash"] = Base.VERSION_COMMIT
+    df["JuliaHash"] = Base.BUILD_INFO.commit
     if isdir(".git")
         df["CodeHash"] = readchomp(`git rev-parse HEAD`)[1:10]
     else
