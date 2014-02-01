@@ -1,6 +1,6 @@
 using Benchmark
 
-tests = ["benchmarks.jl", "compare.jl"]
+tests = ["benchmarks.jl", "compare.jl", "consistency.jl"]
 
 @printf "Running tests:\n"
 

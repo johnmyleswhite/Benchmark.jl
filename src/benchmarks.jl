@@ -10,26 +10,30 @@ function timer(f::Function, n::Integer)
     return times
 end
 
-function benchmark(f::Function, category::String, name::String, n::Integer)
+function benchmark(f::Function,
+                   category::String,
+                   name::String,
+                   n::Integer)
     times = timer(f, n)
 
     df = DataFrame()
-    df["Category"] = category
-    df["Benchmark"] = name
-    df["Iterations"] = n
-    df["TotalWall"] = sum(times)
-    df["AverageWall"] = mean(times)
-    df["MaxWall"] = maximum(times)
-    df["MinWall"] = minimum(times)
-    df["Timestamp"] = strftime("%Y-%m-%d %H:%M:%S", int(time()))
-    df["JuliaHash"] = Base.BUILD_INFO.commit
+    df[:Category] = category
+    df[:Benchmark] = name
+    df[:Iterations] = n
+    # TODO: Remove
+    df[:TotalWall] = sum(times)
+    df[:AverageWall] = mean(times)
+    df[:MaxWall] = maximum(times)
+    df[:MinWall] = minimum(times)
+    df[:Timestamp] = strftime("%Y-%m-%d %H:%M:%S", int(time()))
+    df[:JuliaHash] = Base.GIT_VERSION_INFO.commit
     if isdir(".git")
-        df["CodeHash"] = readchomp(`git rev-parse HEAD`)[1:10]
+        df[:CodeHash] = readchomp(`git rev-parse HEAD`)
     else
-        df["CodeHash"] = NA
+        df[:CodeHash] = NA
     end
-    df["OS"] = string(OS_NAME)
-    df["CPUCores"] = CPU_CORES
+    df[:OS] = string(OS_NAME)
+    df[:CPUCores] = CPU_CORES
 
     return df
 end
@@ -40,8 +44,7 @@ function benchmarks(marks::Vector)
     df = DataFrame()
 
     for mark in marks
-        df = rbind(df,
-                   benchmark(mark[1], mark[2], mark[3], mark[4]))
+        df = vcat(df, benchmark(mark[1], mark[2], mark[3], mark[4]))
     end
 
     return df

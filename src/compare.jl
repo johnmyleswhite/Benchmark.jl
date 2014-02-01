@@ -1,3 +1,5 @@
+elapsedtime(adf::AbstractDataFrame) = DataFrame(Average = mean(adf[:Time]))
+
 function compare(fs::Vector{Function}, replications::Integer)
 	n = length(fs)
 
@@ -6,25 +8,28 @@ function compare(fs::Vector{Function}, replications::Integer)
 		fs[i]()
 	end
 
-	n_total = replications * n
-	indices = reshape(repmat([1:n], replications, 1), n_total)
-	shuffle!(indices)
-	indices = DataArray(indices)
-
-	times = DataArray(Float64, n_total)
-	for i in 1:n_total
-		times[i] = @elapsed fs[indices[i]]()
+	times = Array(Float64, n * replications)
+	indices = Array(Int, n * replications)
+	for i in 1:n
+		f = fs[i]
+		f()
+		for itr in 1:replications
+			index = (i - 1) * replications + itr
+			times[index] = @elapsed f()
+			indices[index] = i
+		end
 	end
 
-	df = DataFrame({times, indices}, ["Time", "Function"])
-	df = by(df, "Function", :(Elapsed = sum(Time)))
-	df["Relative"] = df["Elapsed"] / minimum(df["Elapsed"])
-	df["Function"] = DataArray(ASCIIString, nrow(df))
-	for i in 1:nrow(df)
-		df[i, "Function"] = string(fs[i])
+	df = DataFrame({times, indices}, [:Time, :Function])
+	df = by(df, :Function, elapsedtime)
+	df[:Relative] = df[:Average] / minimum(df[:Average])
+	df[:Function] = DataArray(UTF8String, size(df, 1))
+	for i in 1:size(df, 1)
+		df[i, :Function] = string(fs[i])
 	end
-	df["Replications"] = replications
+	df[:Replications] = replications
 
 	return df
 end
+
 compare(replications::Integer, fs::Function...) = compare([fs...], replications)
