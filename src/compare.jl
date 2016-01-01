@@ -1,6 +1,6 @@
 elapsedtime(adf::AbstractDataFrame) = DataFrame(Average = mean(adf[:Time]))
 
-function compare(fs::Vector{Function}, replications::Integer)
+function compare(fs::Vector, replications::Integer)
 	n = length(fs)
 
 	# Force JIT compilation
