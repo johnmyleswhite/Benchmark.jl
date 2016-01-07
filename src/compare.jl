@@ -20,7 +20,7 @@ function compare(fs::Vector, replications::Integer)
 		end
 	end
 
-	df = DataFrame({times, indices}, [:Time, :Function])
+	df = DataFrame(Any[times, indices], [:Time, :Function])
 	df = by(df, :Function, elapsedtime)
 	df[:Relative] = df[:Average] / minimum(df[:Average])
 	df[:Function] = DataArray(UTF8String, size(df, 1))

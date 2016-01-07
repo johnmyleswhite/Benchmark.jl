@@ -11,8 +11,8 @@ function timer(f::Function, n::Integer)
 end
 
 function benchmark(f::Function,
-                   category::String,
-                   name::String,
+                   category::AbstractString,
+                   name::AbstractString,
                    n::Integer)
     times = timer(f, n)
 
@@ -25,7 +25,7 @@ function benchmark(f::Function,
     df[:AverageWall] = mean(times)
     df[:MaxWall] = maximum(times)
     df[:MinWall] = minimum(times)
-    df[:Timestamp] = strftime("%Y-%m-%d %H:%M:%S", int(time()))
+    df[:Timestamp] = Libc.strftime("%Y-%m-%d %H:%M:%S", round(Int, time()))
     df[:JuliaHash] = Base.GIT_VERSION_INFO.commit
     if isdir(".git")
         df[:CodeHash] = readchomp(`git rev-parse HEAD`)
@@ -38,7 +38,7 @@ function benchmark(f::Function,
     return df
 end
 
-benchmark(f::Function, name::String, n::Integer) = benchmark(f, name, name, n)
+benchmark(f::Function, name::AbstractString, n::Integer) = benchmark(f, name, name, n)
 
 function benchmarks(marks::Vector)
     df = DataFrame()
