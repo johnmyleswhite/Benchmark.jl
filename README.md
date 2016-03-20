@@ -1,6 +1,8 @@
 Benchmark.jl
 ============
 
+**THIS PACKAGE IS ABANDONED. ALL FUTURE WORK WILL HAPPEN IN THE Benchmarks.jl REPO.**
+
 A package for computing simple benchmarks and comparing functions
 
 # Usage Example
